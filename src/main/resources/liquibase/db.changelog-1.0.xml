@@ -1,0 +1,356 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1.0.0" author="sergey.botyan">
+        <createTable tableName="users">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="username" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="balance" type="DECIMAL">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="role" type="VARCHAR(30)" defaultValue="ROLE_USER">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="status" type="VARCHAR(50)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.1" author="sergey.botyan">
+        <createTable tableName="orders">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="user_id" type="BIGINT"/>
+
+            <column name="total_amount" type="DECIMAL" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="commission" type="INTEGER" defaultValue="5">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.2" author="sergey.botyan">
+        <addForeignKeyConstraint baseTableName="orders"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_orders_users"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+    </changeSet>
+
+    <changeSet id="1.0.3" author="sergey.botyan">
+        <createTable tableName="organizations">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="logo_url" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="user_id" type="BIGINT"/>
+
+            <column name="balance" type="DECIMAL" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="status" type="VARCHAR(50)" defaultValue="NEW">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.4" author="sergey.botyan">
+        <addForeignKeyConstraint baseTableName="organizations"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_organizations_users"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+    </changeSet>
+
+    <changeSet id="1.0.5" author="sergey.botyan">
+        <createTable tableName="notifications">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="content" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="user_id" type="BIGINT"/>
+
+            <column name="status" type="VARCHAR(50)" defaultValue="NEW">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.6" author="sergey.botyan">
+        <addForeignKeyConstraint baseTableName="notifications"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_notifications_users"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+    </changeSet>
+
+    <changeSet id="1.0.7" author="sergey.botyan">
+        <createTable tableName="items">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="organization_id" type="BIGINT"/>
+
+            <column name="price" type="DECIMAL">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="total_amount" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="discount_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="grade" type="INTEGER">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="status" type="VARCHAR(50)" defaultValue="NEW">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.8" author="sergey.botyan">
+        <addForeignKeyConstraint baseTableName="items"
+                                 baseColumnNames="organization_id"
+                                 constraintName="fk_items_organizations"
+                                 referencedTableName="organizations"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+    </changeSet>
+
+    <changeSet id="1.0.9" author="sergey.botyan">
+        <createTable tableName="discounts">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="discount_amount" type="DECIMAL">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="start_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="end_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.10" author="sergey.botyan">
+        <addForeignKeyConstraint baseTableName="items"
+                                 baseColumnNames="discount_id"
+                                 constraintName="fk_items_discount"
+                                 referencedTableName="discounts"
+                                 referencedColumnNames="id"
+                                 onDelete="SET NULL"
+                                 onUpdate="RESTRICT"/>
+    </changeSet>
+
+    <changeSet id="1.0.11" author="sergey.botyan">
+        <createTable tableName="comments">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="content" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="item_id" type="BIGINT"/>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.12" author="sergey.botyan">
+        <addForeignKeyConstraint baseTableName="comments"
+                                 baseColumnNames="item_id"
+                                 constraintName="fk_comments_items"
+                                 referencedTableName="items"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+    </changeSet>
+
+    <changeSet id="1.0.13" author="sergey.botyan">
+        <createTable tableName="tags">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.14" author="sergey.botyan">
+        <createTable tableName="item_tags">
+            <column name="item_id" type="BIGINT"/>
+            <column name="tag_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.15" author="sergey.botyan">
+        <addForeignKeyConstraint baseColumnNames="item_id"
+                                 baseTableName="item_tags"
+                                 constraintName="fk_item_tags_items"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="items"/>
+
+        <addForeignKeyConstraint baseColumnNames="tag_id"
+                                 baseTableName="item_tags"
+                                 constraintName="fk_item_tags_tags"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tags"/>
+    </changeSet>
+
+    <changeSet id="1.0.16" author="sergey.botyan">
+        <createTable tableName="characteristics">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="VARCHAR(150)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="content" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="item_id" type="BIGINT"/>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.17" author="sergey.botyan">
+        <addForeignKeyConstraint baseTableName="characteristics"
+                                 baseColumnNames="item_id"
+                                 constraintName="fk_characteristics_items"
+                                 referencedTableName="items"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+    </changeSet>
+
+    <changeSet id="1.0.18" author="sergey.botyan">
+        <createTable tableName="item_orders">
+            <column name="item_id" type="BIGINT"/>
+            <column name="order_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.19" author="sergey.botyan">
+        <addForeignKeyConstraint baseColumnNames="item_id"
+                                 baseTableName="item_orders"
+                                 constraintName="fk_item_orders_items"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="items"/>
+
+        <addForeignKeyConstraint baseColumnNames="order_id"
+                                 baseTableName="item_orders"
+                                 constraintName="fk_item_orders_orders"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="orders"/>
+    </changeSet>
+
+</databaseChangeLog>
