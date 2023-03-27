@@ -30,7 +30,7 @@ public class ApplicationSwaggerConfig {
 
     private ApiInfo getApiInfo() {
         return new ApiInfo(
-                "REST Shop backend Api Documentation",
+                "REST service 'Shop'. Backend Api Documentation",
                 "This is REST API documentation of the Spring Shop backend",
                 "1.0",
                 "TeamGetter backend terms of service",
