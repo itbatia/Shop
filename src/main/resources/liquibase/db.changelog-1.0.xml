@@ -353,4 +353,16 @@
                                  referencedTableName="orders"/>
     </changeSet>
 
+    <changeSet id="1.0.20" author="sergey.botyan">
+        <addColumn tableName="orders">
+            <column name="status" type="VARCHAR(50)" defaultValue="SAVED">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="1.0.21" author="sergey.botyan">
+        <renameColumn tableName="orders" oldColumnName="total_amount" newColumnName="total_price"/>
+    </changeSet>
+
 </databaseChangeLog>
