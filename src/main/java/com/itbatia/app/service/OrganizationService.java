@@ -1,10 +1,7 @@
 package com.itbatia.app.service;
 
 import com.itbatia.app.exceptions.OrganizationNotFoundException;
-import com.itbatia.app.model.Item;
-import com.itbatia.app.model.Organization;
-import com.itbatia.app.model.Role;
-import com.itbatia.app.model.User;
+import com.itbatia.app.model.*;
 import com.itbatia.app.repository.OrganizationRepository;
 import com.itbatia.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,10 +47,10 @@ public class OrganizationService {
      * @param mathSignOfOperation Takes 2 values. If the item is purchased: '+', if the item is returned: '-'.
      */
     @Transactional
-    public void updateBalanceOfOrganization(Item item, Character mathSignOfOperation) {
+    public void updateBalanceOfOrganization(Item item, MathSignOfOperation mathSign) {
         BigDecimal profitFromTheSaleItems = getProfitFromTheSaleItem(item);
         Long organizationId = item.getOrganization().getId();
-        updateBalance(organizationId, profitFromTheSaleItems, mathSignOfOperation);
+        updateBalance(organizationId, profitFromTheSaleItems, mathSign);
         log.info("IN updateBalanceOfOrganization - Balance of organization with id={} successfully updated!", organizationId);
     }
 
@@ -73,12 +70,12 @@ public class OrganizationService {
         return totalPriceOfItemsInOrder.subtract(storeIncome);
     }
 
-    private void updateBalance(Long organizationId, BigDecimal countOfMoney, Character mathSignOfOperation) {
+    private void updateBalance(Long organizationId, BigDecimal countOfMoney, MathSignOfOperation mathSign) {
         Organization organization = findById(organizationId);
 
-        if (mathSignOfOperation.equals('-'))
+        if (mathSign.equals(MathSignOfOperation.MINUS))
             organization.setBalance(organization.getBalance().subtract(countOfMoney));
-        if (mathSignOfOperation.equals('+'))
+        if (mathSign.equals(MathSignOfOperation.MINUS))
             organization.setBalance(organization.getBalance().add(countOfMoney));
     }
 

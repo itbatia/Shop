@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.itbatia.app.dto.CharacteristicToUpdateDto.*;
+import static com.itbatia.app.dto.CommentDto.*;
 import static com.itbatia.app.dto.DiscountDto.*;
 import static com.itbatia.app.dto.TagDto.*;
 
@@ -31,8 +32,10 @@ public class ItemToUpdateDto {
     private Integer totalAmount;
     @JsonProperty("discount")
     private DiscountDto discountDto;
+    @JsonProperty("comments")
+    private List<CommentDto> commentsDto;
     @JsonProperty("tags")
-    private List<TagDto> tags;
+    private List<TagDto> tagsDto;
     @JsonProperty("characteristics")
     private List<CharacteristicToUpdateDto> characteristicsDto;
     @JsonProperty("grade")
@@ -48,7 +51,8 @@ public class ItemToUpdateDto {
                 .price(item.getPrice())
                 .totalAmount(item.getTotalAmount())
                 .discountDto(item.getDiscount() != null ? fromDiscount(item.getDiscount()) : null)
-                .tags(fromTags(item.getTags()))
+                .commentsDto(fromComments(item.getComments()))
+                .tagsDto(fromTags(item.getTags()))
                 .characteristicsDto(fromCharacteristics(item.getCharacteristics()))
                 .grade(item.getGrade())
                 .itemStatus(item.getItemStatus().name())
@@ -64,7 +68,8 @@ public class ItemToUpdateDto {
                 .price(price)
                 .totalAmount(totalAmount)
                 .discount(discountDto != null ? discountDto.toDiscount() : null)
-                .tags(toTags(tags))
+                .comments(toComments(commentsDto))
+                .tags(toTags(tagsDto))
                 .characteristics(toCharacteristics(characteristicsDto))
                 .grade(grade != null ? grade : 0)
                 .itemStatus(itemStatus != null ? ItemStatus.valueOf(itemStatus) : ItemStatus.NEW)

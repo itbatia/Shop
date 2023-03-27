@@ -22,7 +22,6 @@ public class CommentDto {
     private ItemToUpdateDto item;
 
     public static CommentDto fromComment(Comment comment) {
-
         return CommentDto.builder()
                 .id(comment.getId())
                 .content(comment.getContent())
@@ -31,16 +30,18 @@ public class CommentDto {
     }
 
     public Comment toComment() {
-
-        Comment comment = new Comment();
-        comment.setId(id);
-        comment.setContent(content);
-        comment.setItem(item.toItem());
-
-        return comment;
+        return Comment.builder()
+                .id(id)
+                .content(content)
+                .item(item.toItem())
+                .build();
     }
 
     public static List<CommentDto> fromComments(List<Comment> comments) {
-        return comments.stream().map(CommentDto::fromComment).collect(Collectors.toList());
+        return comments != null ? comments.stream().map(CommentDto::fromComment).collect(Collectors.toList()) : null;
+    }
+
+    public static List<Comment> toComments(List<CommentDto> comments) {
+        return comments != null ? comments.stream().map(CommentDto::toComment).collect(Collectors.toList()) : null;
     }
 }

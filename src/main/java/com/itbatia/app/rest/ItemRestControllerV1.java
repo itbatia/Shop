@@ -25,13 +25,13 @@ public class ItemRestControllerV1 {
 
     /**
      * The admin can create the items in the store<br/>
-     * The user can add request for registration of item
+     * The user can add request for registration of item (i.e. create the item with status NEW)
      */
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody ItemToCreateDto itemDto) {
+    public ResponseEntity<?> create(@RequestBody ItemToCreateDto itemDto, Principal principal) {
         Item itemToSave = itemDto.toItem();
-        Item createdItem = itemService.createItem(itemToSave);
+        Item createdItem = itemService.createItem(itemToSave, principal);
         return new ResponseEntity<>(fromItem(createdItem), HttpStatus.CREATED);
     }
 

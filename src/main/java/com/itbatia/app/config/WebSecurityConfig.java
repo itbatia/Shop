@@ -36,7 +36,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers(LOGIN_ENTRY_POINT).permitAll()
                 .antMatchers(SIGN_UP_ENTRY_POINT).permitAll()
                 .antMatchers(LOGOUT_ENTRY_POINT).permitAll()
@@ -60,7 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs",
+        web.ignoring().antMatchers(
+                "/v2/api-docs",
                 "/configuration/ui",
                 "/swagger-resources/**",
                 "/configuration/security",

@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.itbatia.app.dto.CharacteristicToCreateDto.*;
+import static com.itbatia.app.dto.CharacteristicDto.*;
 import static com.itbatia.app.dto.TagDto.*;
 
 @Getter
@@ -33,7 +33,7 @@ public class ItemToCreateDto {
     @JsonProperty("tags")
     private List<TagDto> tagsDto;
     @JsonProperty("characteristics")
-    private List<CharacteristicToCreateDto> characteristicsDto;
+    private List<CharacteristicDto> characteristicsDto;
     @JsonProperty("status")
     private String itemStatus;
 
@@ -60,7 +60,7 @@ public class ItemToCreateDto {
                 .totalAmount(totalAmount)
                 .tags(toTags(tagsDto))
                 .characteristics(toCharacteristics(characteristicsDto))
-                .itemStatus(itemStatus != null ? ItemStatus.valueOf(itemStatus) : ItemStatus.NEW)
+                .itemStatus(itemStatus != null ? ItemStatus.valueOf(itemStatus) : null)
                 .build();
     }
 

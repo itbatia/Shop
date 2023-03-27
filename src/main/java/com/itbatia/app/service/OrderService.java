@@ -36,7 +36,7 @@ public class OrderService {
         Order savedOrder = orderRepository.save(order);
 
         List<Item> items = savedOrder.getItems();
-        updateAmountItemsAndOrganizationBalance(items, '-', '+');
+        updateAmountItemsAndOrganizationBalance(items, MathSignOfOperation.MINUS, MathSignOfOperation.PLUS);
 
         log.info("IN createOrder - Order with id={} successfully created!", savedOrder.getId());
         return savedOrder;
@@ -44,11 +44,13 @@ public class OrderService {
 
     /**
      * Parameters <p color="blue">mathSignOfOperationForItem</p>
-     * Takes 2 values: If the item is purchased: '-', if the item is returned: '+'.
+     * Takes 2 values: If the item is purchased: 'MINUS', if the item is returned: 'PLUS'.
      * <p color="blue">mathSignOfOperationForOrganization</p>
-     * Takes 2 values: If the item is purchased: '+', if the item is returned: '-'.
+     * Takes 2 values: If the item is purchased: 'PLUS', if the item is returned: 'MINUS'.
      */
-    private void updateAmountItemsAndOrganizationBalance(List<Item> items, Character mathSignOfOperationForItem, Character mathSignOfOperationForOrganization) {
+    private void updateAmountItemsAndOrganizationBalance(List<Item> items,
+                                                         MathSignOfOperation mathSignOfOperationForItem,
+                                                         MathSignOfOperation mathSignOfOperationForOrganization) {
         items.forEach((item -> {
             itemService.updateAmountOfItem(item.getId(), item.getTotalAmount(), mathSignOfOperationForItem);
             organizationService.updateBalanceOfOrganization(item, mathSignOfOperationForOrganization);
@@ -80,7 +82,7 @@ public class OrderService {
                 if (!cancellationDeadlineHasExpired(order.getCreatedAt())) {
                     Order orderToCancel = orderRepository.findById(id).orElseThrow();
                     orderToCancel.setOrderStatus(OrderStatus.CANCELED);
-                    updateAmountItemsAndOrganizationBalance(order.getItems(), '+', '-');
+                    updateAmountItemsAndOrganizationBalance(order.getItems(), MathSignOfOperation.PLUS, MathSignOfOperation.MINUS);
                     log.info("IN cancelOrder - order with id={} deleted", id);
                 }
             }

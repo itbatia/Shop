@@ -61,7 +61,9 @@ public class UserService {
 
     @Transactional
     public void updateUser(User user) {
-        userRepository.save(user);
+        User userToUpdate = findById(user.getId());
+        userToUpdate.setBalance(user.getBalance());
+        userToUpdate.setUserStatus(user.getUserStatus());
         log.info("IN updateUser - User with id={} successfully updated!", user.getId());
     }
 

@@ -29,15 +29,16 @@ public class ApplicationSwaggerConfig {
     }
 
     private ApiInfo getApiInfo() {
-        return new ApiInfo("REST Shop backend Api Documentation", // Title
-                "This is REST API documentation of the Spring Shop backend", // Description
-                "1.0", // Version
-                "TeamGetter backend terms of service", // Terms of Service
+        return new ApiInfo(
+                "REST Shop backend Api Documentation",
+                "This is REST API documentation of the Spring Shop backend",
+                "1.0",
+                "TeamGetter backend terms of service",
                 new Contact(
                         "Sergey Botyan",
                         " ",
-                        "botyan.sergey@gmail.com"), // Contact
-                "Apache 2.0", // License
+                        "botyan.sergey@gmail.com"),
+                "Apache 2.0",
                 "http://www.apache.org/licenses/LICENSE-2.0", Collections.emptyList());
     }
 }

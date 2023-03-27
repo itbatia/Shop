@@ -41,12 +41,10 @@ public class Item {
     private Integer totalAmount;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "discount_id")
     private Discount discount; //in money
 
     @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

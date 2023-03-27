@@ -33,8 +33,15 @@ public class ItemService {
      * @see ItemStatus
      */
     @Transactional
-    public Item createItem(Item itemToSave) {
+    public Item createItem(Item itemToSave, Principal principal) {
+        User currentUser = userRepository.findByUsername(principal.getName()).orElseThrow(() -> {
+            throw new UserNotFoundException("User not found");
+        });
+        if(currentUser.getRole().equals(Role.ROLE_USER))
+            itemToSave.setItemStatus(ItemStatus.NEW);
+
         Item savedItem = itemRepository.save(itemToSave);
+        savedItem.getCharacteristics().forEach(c -> c.setItem(savedItem));
         log.info("IN createItem - Item with id={} successfully created!", savedItem.getId());
         return savedItem;
     }
@@ -62,12 +69,12 @@ public class ItemService {
     }
 
     @Transactional
-    public void updateAmountOfItem(Long itemId, Integer itemAmount, Character mathSignOfOperation) {
+    public void updateAmountOfItem(Long itemId, Integer itemAmount, MathSignOfOperation mathSign) {
         Item item = findById(itemId);
 
-        if (mathSignOfOperation.equals('-'))
+        if (mathSign.equals(MathSignOfOperation.MINUS))
             item.setTotalAmount(item.getTotalAmount() - itemAmount);
-        if (mathSignOfOperation.equals('+'))
+        if (mathSign.equals(MathSignOfOperation.PLUS))
             item.setTotalAmount(item.getTotalAmount() + itemAmount);
 
         log.info("IN updateAmountOfItem - Amount of item with id={} successfully updated!", itemId);
@@ -97,6 +104,4 @@ public class ItemService {
         });
         return itemPurchasedByUser.get();
     }
-
-
 }
