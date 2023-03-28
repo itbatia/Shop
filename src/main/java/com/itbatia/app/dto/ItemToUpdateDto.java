@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.itbatia.app.dto.CharacteristicToUpdateDto.*;
-import static com.itbatia.app.dto.CommentDto.*;
+import static com.itbatia.app.dto.CommentToUpdateItemDto.*;
 import static com.itbatia.app.dto.DiscountDto.*;
 import static com.itbatia.app.dto.TagDto.*;
 
@@ -33,7 +33,7 @@ public class ItemToUpdateDto {
     @JsonProperty("discount")
     private DiscountDto discountDto;
     @JsonProperty("comments")
-    private List<CommentDto> commentsDto;
+    private List<CommentToUpdateItemDto> commentsDto;
     @JsonProperty("tags")
     private List<TagDto> tagsDto;
     @JsonProperty("characteristics")

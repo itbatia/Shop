@@ -37,7 +37,7 @@ public class ItemService {
         User currentUser = userRepository.findByUsername(principal.getName()).orElseThrow(() -> {
             throw new UserNotFoundException("User not found");
         });
-        if(currentUser.getRole().equals(Role.ROLE_USER))
+        if (currentUser.getRole().equals(Role.ROLE_USER))
             itemToSave.setItemStatus(ItemStatus.NEW);
 
         Item savedItem = itemRepository.save(itemToSave);

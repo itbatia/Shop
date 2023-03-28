@@ -54,9 +54,10 @@ public class UserRestControllerV1 {
     /**
      * Get proceeds from the organization
      */
+    @Secured("ROLE_USER")
     @Operation(summary = "Get proceeds from the organization")
     @PatchMapping("/proceeds/organizations/{id}")
-    public ResponseEntity<?> getProceeds(@PathVariable("id") Long id, Principal principal){
+    public ResponseEntity<?> getProceeds(@PathVariable("id") Long id, Principal principal) {
         userService.getProceedsFromOrganization(id, principal);
         return ResponseEntity.ok(HttpStatus.OK);
     }

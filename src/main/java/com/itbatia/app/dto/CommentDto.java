@@ -18,14 +18,11 @@ public class CommentDto {
     private Long id;
     @JsonProperty("content")
     private String content;
-    @JsonProperty("item")
-    private ItemToUpdateDto item;
 
     public static CommentDto fromComment(Comment comment) {
         return CommentDto.builder()
                 .id(comment.getId())
                 .content(comment.getContent())
-                .item(ItemToUpdateDto.fromItem(comment.getItem()))
                 .build();
     }
 
@@ -33,7 +30,6 @@ public class CommentDto {
         return Comment.builder()
                 .id(id)
                 .content(content)
-                .item(item.toItem())
                 .build();
     }
 
