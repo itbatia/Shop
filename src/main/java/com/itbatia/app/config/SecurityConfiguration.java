@@ -45,7 +45,8 @@ public class SecurityConfiguration {
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider))
-                .and().build();
+                .and()
+                .build();
     }
 
     @Bean
